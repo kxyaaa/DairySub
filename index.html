@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DairySub - Sistem Substitusi Dairy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <div class="logo-icon">D</div>
+        <div>
+            <h1>DairySub</h1>
+            <p>Rooted Tree Substitution System</p>
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <nav>
+            <button class="nav-btn active" data-page="home">Beranda</button>
+            <button class="nav-btn" data-page="search">Cari Substitusi</button>
+            <button class="nav-btn" data-page="about">Tentang</button>
+        </nav>
+        
+        <!-- Tombol Tema Terpisah -->
+        <button id="themeToggle" class="theme-btn">🌙</button>
+    </div>
+</header>
+
+
+<main>
+
+    <!-- BERANDA -->
+    <section id="home" class="page active">
+
+        <div class="hero">
+            <div class="hero-text">
+                <span class="label">MATEMATIKA DISKRIT</span>
+
+                <h2>
+                    Temukan bahan dairy
+                    <span>pengganti</span>
+                    dengan mudah.
+                </h2>
+
+                <p>
+                    Sistem rekomendasi substitusi bahan dairy berdasarkan
+                    kemiripan fungsi, gizi, dan rasa dengan menggunakan
+                    konsep General Rooted Tree.
+                </p>
+
+                <button class="main-btn" id="startBtn">
+                    Mulai Mencari
+                </button>
+            </div>
+
+            <div class="hero-card">
+                <div class="circle">🌱</div>
+                <h3>Rooted Tree</h3>
+                <p>
+                    Hubungan antar bahan disusun berdasarkan kelompok,
+                    kategori, hingga bahan sebagai leaf.
+                </p>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-card">
+                <strong>10+</strong>
+                <span>Bahan & alternatif</span>
+            </div>
+
+            <div class="info-card">
+                <strong>3</strong>
+                <span>Indikator kemiripan</span>
+            </div>
+
+            <div class="info-card">
+                <strong>LCA</strong>
+                <span>Analisis struktur pohon</span>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- CARI SUBSTITUSI -->
+    <section id="search" class="page">
+
+        <div class="page-title">
+            <span class="label">SISTEM REKOMENDASI</span>
+            <h2>Cari Substitusi Bahan</h2>
+            <p>
+                Masukkan bahan yang ingin diganti, lalu sistem akan
+                menentukan alternatif berdasarkan struktur pohon dan
+                kemiripan fungsi, gizi, serta rasa.
+            </p>
+        </div>
+
+
+        <div class="search-box">
+
+            <div class="input-group">
+                <label>Bahan yang ingin diganti</label>
+
+                <select id="ingredient">
+                    <option value="">-- Pilih bahan --</option>
+                    <option value="Susu Sapi">Susu Sapi</option>
+                    <option value="Susu Kambing">Susu Kambing</option>
+                    <option value="Susu Kedelai">Susu Kedelai</option>
+                    <option value="Susu Oat">Susu Oat</option>
+                    <option value="Susu Almond">Susu Almond</option>
+                    <option value="Mentega">Mentega</option>
+                    <option value="Margarin">Margarin</option>
+                    <option value="Keju Cheddar">Keju Cheddar</option>
+                    <option value="Keju Vegan">Keju Vegan</option>
+                    <option value="Nutritional Yeast">Nutritional Yeast</option>
+                </select>
+            </div>
+
+
+            <div class="input-group">
+                <label>Preferensi</label>
+
+                <select id="preference">
+                    <option value="all">Semua alternatif</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="lactose">Bebas laktosa</option>
+                </select>
+            </div>
+
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="sameGroup" checked>
+                <label for="sameGroup">
+                    Prioritaskan kelompok yang sama
+                </label>
+            </div>
+
+
+            <button class="search-btn" id="searchBtn">
+                Cari Substitusi
+            </button>
+
+        </div>
+
+
+        <!-- HASIL -->
+        <div id="resultSection" class="result-section">
+
+            <div class="result-header">
+                <div>
+                    <span class="label">HASIL REKOMENDASI</span>
+                    <h3>Alternatif yang disarankan</h3>
+                </div>
+
+                <span id="groupInfo" class="group-badge"></span>
+            </div>
+
+
+            <div class="substitution">
+
+                <div class="ingredient-card original">
+                    <span>Bahan yang dipilih</span>
+                    <h3 id="originalName">-</h3>
+                    <small id="originalCategory">-</small>
+                </div>
+
+
+                <div class="arrow">
+                    →
+                </div>
+
+
+                <div class="ingredient-card substitute">
+                    <span>Substitusi</span>
+                    <h3 id="substituteName">-</h3>
+                    <small id="substituteCategory">-</small>
+                </div>
+
+            </div>
+
+
+            <!-- PENJELASAN -->
+            <div class="explanation">
+
+                <div class="explanation-title">
+                    <h3>Kenapa bahan ini dipilih?</h3>
+
+                    <p>
+                        Sistem membandingkan kandidat berdasarkan tiga
+                        karakteristik utama:
+                    </p>
+                </div>
+
+
+                <div class="score-grid">
+
+                    <div class="score-card">
+                        <div class="score-icon">⚙</div>
+
+                        <div>
+                            <h4>Fungsi</h4>
+                            <p id="functionText">
+                                -
+                            </p>
+                        </div>
+
+                        <strong id="functionScore">-</strong>
+                    </div>
+
+
+                    <div class="score-card">
+                        <div class="score-icon">🥛</div>
+
+                        <div>
+                            <h4>Gizi</h4>
+                            <p id="nutritionText">
+                                -
+                            </p>
+                        </div>
+
+                        <strong id="nutritionScore">-</strong>
+                    </div>
+
+
+                    <div class="score-card">
+                        <div class="score-icon">👅</div>
+
+                        <div>
+                            <h4>Rasa</h4>
+                            <p id="tasteText">
+                                -
+                            </p>
+                        </div>
+
+                        <strong id="tasteScore">-</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="overall">
+                    <div>
+                        <span>Tingkat kemiripan keseluruhan</span>
+                        <p id="overallText">
+                            -
+                        </p>
+                    </div>
+
+                    <strong id="overallScore">-</strong>
+                </div>
+
+            </div>
+
+
+            <!-- TOMBOL TREE -->
+            <div class="tree-button-area">
+                <p>
+                    Ingin melihat bagaimana sistem menemukan hubungan
+                    antara kedua bahan?
+                </p>
+
+                <button class="tree-btn" id="treeBtn">
+                    🌳 Lihat Rooted Tree
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- ROOTED TREE -->
+        <div id="treeSection" class="tree-section">
+
+            <div class="tree-title">
+                <span class="label">VISUALISASI STRUKTUR</span>
+
+                <h3>General Rooted Tree</h3>
+
+                <p>
+                    Struktur berikut menunjukkan posisi bahan yang dipilih
+                    dan bahan substitusi dalam hierarki dairy.
+                </p>
+            </div>
+
+
+            <div class="tree-container">
+
+                <svg id="treeSvg"
+                     viewBox="0 0 1100 600"
+                     preserveAspectRatio="xMidYMid meet">
+                </svg>
+
+            </div>
+
+
+            <div class="tree-legend">
+                <div>
+                    <span class="legend normal"></span>
+                    Node
+                </div>
+
+                <div>
+                    <span class="legend active"></span>
+                    Jalur bahan
+                </div>
+
+                <div>
+                    <span class="legend result"></span>
+                    Substitusi
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TENTANG -->
+    <section id="about" class="page">
+
+        <div class="page-title">
+            <span class="label">TENTANG PROYEK</span>
+
+            <h2>DairySub</h2>
+
+            <p>
+                Website ini merupakan prototype implementasi konsep
+                General Rooted Tree pada mata kuliah Matematika Diskrit.
+            </p>
+        </div>
+
+
+        <div class="about-grid">
+
+            <div class="about-card">
+                <h3>Root</h3>
+                <p>
+                    Root merupakan tingkat paling atas yaitu
+                    Produk Dairy & Alternatifnya.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>Parent</h3>
+                <p>
+                    Parent berupa kelompok dan kategori bahan seperti
+                    Susu Cair, Lemak Padat, dan Keju.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>Leaf</h3>
+                <p>
+                    Leaf merupakan bahan yang berada pada tingkat
+                    paling bawah seperti Mentega, Margarin, dan Susu Oat.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>LCA</h3>
+                <p>
+                    Lowest Common Ancestor digunakan untuk melihat
+                    titik temu terdekat antara dua bahan.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    DairySub · Implementasi General Rooted Tree · Matematika Diskrit
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
